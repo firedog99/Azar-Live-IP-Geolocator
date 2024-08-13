@@ -24,6 +24,7 @@ This project is a simple application designed for use with the Azar chat app. It
 
 ``git clone https://github.com/adhdlinux/Azar-Live-IP-Geolocator.git``
 ``cd ip-geolocation-display``
+- Or you can just download the Python and JavaScript files if you dont want to download Git.
 
 ### 2. Install Python dependencies
 
@@ -49,10 +50,10 @@ Ensure you have Python 3 installed. You can install the required Python packages
    ``python3 server.py``
 
 #### On Windows
-
-1. Open Command Prompt or PowerShell.
-2. Navigate to the project directory.
-3. Run the Python server:
+1. Download the latest version of Python from the Microsoft store. 
+2. Open Command Prompt or PowerShell.
+3. Navigate to the project directory.
+4. Run the Python server:
 
    ``python3 server.py``
 
@@ -64,7 +65,7 @@ Ensure you have Python 3 installed. You can install the required Python packages
 
 ## Known Issues
 
-- The script only works on Google Chrome due to CORS restrictions in Firefox.
+- The script only works on Google Chrome and Microsift Edge due to restrictions in Firefox related to displaying other public IPs.
 - The Python server must be running on the same machine as the browser.
 - This tool is specifically designed for the Azar chat app and may not work with other applications.
 - Before The connection is completed with peer your IP address is also displayed
