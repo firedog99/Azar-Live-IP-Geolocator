@@ -67,6 +67,7 @@ Ensure you have Python 3 installed. You can install the required Python packages
 - The script only works on Google Chrome due to CORS restrictions in Firefox.
 - The Python server must be running on the same machine as the browser.
 - This tool is specifically designed for the Azar chat app and may not work with other applications.
+- Before The connection is completed with peer your IP address is also displayed
 
 ## License
 
