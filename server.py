@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 import threading
 import tkinter as tk
-from tkinter.scrolledtext import ScrolledText
 import requests
 from flask_cors import CORS
 
@@ -17,13 +16,51 @@ class IPDisplayApp:
     def __init__(self, root):
         self.root = root
         self.root.title("IP Address Display")
-        self.text_area = ScrolledText(root, wrap=tk.WORD, height=20, width=60)
-        self.text_area.pack(padx=10, pady=10)
-        self.text_area.insert(tk.END, "Received IP Addresses:\n")
+        
+        # Create labels for displaying geolocation data
+        self.ip_label = tk.Label(root, text="IP: ", anchor="w")
+        self.ip_label.pack(fill=tk.X, padx=10, pady=2)
 
-    def append_text(self, text):
-        self.text_area.insert(tk.END, text + "\n")
-        self.text_area.yview(tk.END)  # Auto-scroll to the bottom
+        self.hostname_label = tk.Label(root, text="Hostname: ", anchor="w")
+        self.hostname_label.pack(fill=tk.X, padx=10, pady=2)
+
+        self.city_label = tk.Label(root, text="City: ", anchor="w")
+        self.city_label.pack(fill=tk.X, padx=10, pady=2)
+
+        self.region_label = tk.Label(root, text="Region: ", anchor="w")
+        self.region_label.pack(fill=tk.X, padx=10, pady=2)
+
+        self.country_label = tk.Label(root, text="Country: ", anchor="w")
+        self.country_label.pack(fill=tk.X, padx=10, pady=2)
+
+        self.loc_label = tk.Label(root, text="Location: ", anchor="w")
+        self.loc_label.pack(fill=tk.X, padx=10, pady=2)
+
+        self.org_label = tk.Label(root, text="Organization: ", anchor="w")
+        self.org_label.pack(fill=tk.X, padx=10, pady=2)
+
+        self.postal_label = tk.Label(root, text="Postal Code: ", anchor="w")
+        self.postal_label.pack(fill=tk.X, padx=10, pady=2)
+
+        self.timezone_label = tk.Label(root, text="Timezone: ", anchor="w")
+        self.timezone_label.pack(fill=tk.X, padx=10, pady=2)
+
+    def update_labels(self, data):
+        # Update each label with the latest data
+        self.ip_label.config(text=f"IP: {data.get('ip', 'N/A')}")
+        self.hostname_label.config(text=f"Hostname: {data.get('hostname', 'N/A')}")
+        self.city_label.config(text=f"City: {data.get('city', 'N/A')}")
+        self.region_label.config(text=f"Region: {data.get('region', 'N/A')}")
+        self.country_label.config(text=f"Country: {data.get('country', 'N/A')}")
+        self.loc_label.config(text=f"Location: {data.get('loc', 'N/A')}")
+        self.org_label.config(text=f"Organization: {data.get('org', 'N/A')}")
+        self.postal_label.config(text=f"Postal Code: {data.get('postal', 'N/A')}")
+        self.timezone_label.config(text=f"Timezone: {data.get('timezone', 'N/A')}")
+
+        # Log the data in the terminal
+        print("\nGeolocation Data:")
+        for key, value in data.items():
+            print(f"{key.capitalize()}: {value}")
 
 def get_geolocation(ip):
     try:
@@ -47,7 +84,7 @@ def receive_data():
         geo_data['ip'] = ip  # Include the IP in the response data
 
         # Display in Tkinter GUI
-        app_gui.append_text(f"Geolocation data for IP {ip}: {geo_data}")
+        app_gui.update_labels(geo_data)
         
         return jsonify({"status": "success", "data": geo_data})
     except Exception as e:
