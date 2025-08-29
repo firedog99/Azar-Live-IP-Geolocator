@@ -17,7 +17,7 @@ API_KEY = os.getenv("IPINFO_API_KEY", "65a1e552358bd2")  # Fallback to provided 
 API_URL = "https://ipinfo.io/{}/json?token=" + API_KEY
 
 # ThreatPipes API configuration
-THREATPIPES_API_KEY = os.getenv("THREATPIPES_API_KEY", "your_threatpipes_api_key")  # Replace with actual key
+THREATPIPES_API_KEY = os.getenv("THREATPIPES_API_KEY", "your_threatpipes_api_key")  # Fallback
 THREATPIPES_API_URL = "https://api.threatpipes.com/v1/ip/{}"
 
 # Create a Tkinter GUI to display IP data
@@ -96,7 +96,7 @@ class IPDisplayApp:
 
 def get_geolocation(ip):
     try:
-        response = requests.get(API_URL.format(ip))
+        response = requests.get(API_URL.format(ip), timeout=10)
         response.raise_for_status()
         data = response.json()
         return data
@@ -110,7 +110,7 @@ def get_threat_intelligence(ip):
             "Authorization": f"Bearer {THREATPIPES_API_KEY}",
             "Content-Type": "application/json"
         }
-        response = requests.get(THREATPIPES_API_URL.format(ip), headers=headers)
+        response = requests.get(THREATPIPES_API_URL.format(ip), headers=headers, timeout=10)
         response.raise_for_status()
         data = response.json()
         return {
@@ -121,7 +121,7 @@ def get_threat_intelligence(ip):
         }
     except requests.RequestException as e:
         print(f"Error fetching threat intelligence data: {e}")
-        return {}
+        return {"error": str(e), "risk_score": "N/A", "blacklisted": "N/A", "abuse_types": [], "last_reported": "N/A"}
 
 @app.route('/data', methods=['POST'])
 def receive_data():
